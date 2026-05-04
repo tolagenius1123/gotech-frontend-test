@@ -4,11 +4,26 @@
 
 @custom-variant dark (&:is(.dark *));
 
+@theme {
+	--color-gotech-primary: #0ea5e9;
+	--color-gotech-primary-dark: #1e40af;
+	--animate-loading-bar: loading-bar 1.4s linear infinite;
+}
+
+@keyframes loading-bar {
+	from {
+		transform: translateX(-100%);
+	}
+	to {
+		transform: translateX(400%);
+	}
+}
+
 @theme inline {
 	--color-background: var(--background);
 	--color-foreground: var(--foreground);
-	--font-sans: var(--font-sans);
-	--font-mono: var(--font-geist-mono);
+	--font-sans: var(--font-poppins);
+	--font-mono: var(--font-poppins);
 	--font-heading: var(--font-sans);
 	--color-sidebar-ring: var(--sidebar-ring);
 	--color-sidebar-border: var(--sidebar-border);
