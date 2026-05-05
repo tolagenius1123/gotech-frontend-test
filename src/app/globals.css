@@ -7,6 +7,8 @@
 @theme {
 	--color-gotech-primary: #0ea5e9;
 	--color-gotech-primary-dark: #1e40af;
+	--color-3line-gray: #f7f8fa;
+	--color-3line-dark-gray: #eaecf0;
 	--animate-loading-bar: loading-bar 1.4s linear infinite;
 }
 
@@ -142,4 +144,25 @@
 	html {
 		@apply font-sans;
 	}
+}
+
+.dashboard-scrollbar::-webkit-scrollbar,
+.custom-scrollbar::-webkit-scrollbar {
+	width: 4px;
+}
+
+.dashboard-scrollbar::-webkit-scrollbar-track,
+.custom-scrollbar::-webkit-scrollbar-track {
+	background: transparent;
+}
+
+.dashboard-scrollbar::-webkit-scrollbar-thumb,
+.custom-scrollbar::-webkit-scrollbar-thumb {
+	background: #d1d5db;
+	border-radius: 999px;
+}
+
+.dashboard-scrollbar::-webkit-scrollbar-thumb:hover,
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+	background: #9ca3af;
 }

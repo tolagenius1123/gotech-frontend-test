@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 import { useFormik } from 'formik';
 import { Lock, Mail } from 'lucide-react';
 import { loginValidationSchema } from '@/schemas/validation-schema';
@@ -8,6 +9,7 @@ import { FormButton, FormInput } from '@/components/form';
 import { toast } from 'sonner';
 
 const LoginForm = () => {
+	const router = useRouter();
 	const [isLoading, setIsLoading] = useState(false);
 
 	const formik = useFormik({
@@ -19,9 +21,10 @@ const LoginForm = () => {
 		onSubmit: async () => {
 			setIsLoading(true);
 			try {
-				await new Promise((resolve) => setTimeout(resolve, 5000));
+				await new Promise((resolve) => setTimeout(resolve, 2000));
 				toast.success('Login successful');
 				formik.resetForm();
+				router.push('/dashboard/overview');
 			} catch (error) {
 				console.error('Login failed:', error);
 				toast.error('Login failed');
@@ -85,7 +88,10 @@ const LoginForm = () => {
 
 				<p className="text-center text-sm text-gray-500">
 					Don&apos;t have an account?{' '}
-					<Link href="/register" className="font-medium text-gotech-primary hover:underline">
+					<Link
+						href="/register"
+						className="font-medium text-gotech-primary hover:underline"
+					>
 						Sign up
 					</Link>
 				</p>

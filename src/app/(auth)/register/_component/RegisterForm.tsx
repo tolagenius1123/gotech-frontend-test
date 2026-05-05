@@ -6,9 +6,11 @@ import { Lock, Mail, User } from 'lucide-react';
 import { registerValidationSchema } from '@/schemas/validation-schema';
 import { FormButton, FormInput } from '@/components/form';
 import { toast } from 'sonner';
+import { useRouter } from 'next/navigation';
 
 const RegisterForm = () => {
 	const [isLoading, setIsLoading] = useState(false);
+	const router = useRouter();
 
 	const formik = useFormik({
 		initialValues: {
@@ -25,6 +27,7 @@ const RegisterForm = () => {
 				await new Promise((resolve) => setTimeout(resolve, 2000));
 				toast.success('Account created successfully');
 				formik.resetForm();
+				router.push('/login');
 			} catch (error) {
 				console.error('Registration failed:', error);
 				toast.error('Registration failed. Please try again.');
