@@ -7,9 +7,11 @@ import { Lock, Mail } from 'lucide-react';
 import { loginValidationSchema } from '@/schemas/validation-schema';
 import { FormButton, FormInput } from '@/components/form';
 import { toast } from 'sonner';
+import { useAuthStore } from '@/store/auth-store';
 
 const LoginForm = () => {
 	const router = useRouter();
+	const setUser = useAuthStore((state) => state.setUser);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const formik = useFormik({
@@ -18,10 +20,13 @@ const LoginForm = () => {
 			password: '',
 		},
 		validationSchema: loginValidationSchema,
-		onSubmit: async () => {
+		onSubmit: async (values) => {
 			setIsLoading(true);
 			try {
 				await new Promise((resolve) => setTimeout(resolve, 2000));
+				setUser({
+					email: values.emailAddress,
+				});
 				toast.success('Login successful');
 				formik.resetForm();
 				router.push('/dashboard/overview');
@@ -48,7 +53,7 @@ const LoginForm = () => {
 					id="emailAddress"
 					type="email"
 					label="Email address"
-					placeholder="you@example.com"
+					placeholder="john.doe@gotech.com"
 					iconLeft={<Mail className="h-4 w-4" />}
 					inputStyle="h-12"
 					{...getFieldProps('emailAddress')}

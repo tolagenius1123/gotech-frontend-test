@@ -1,16 +1,26 @@
 'use client';
 import { useEffect, useState, startTransition } from 'react';
-import { usePathname } from 'next/navigation';
-import { CircleUser, LogOut, AlignLeft } from 'lucide-react';
+import { usePathname, useRouter } from 'next/navigation';
+import { LogOut, AlignLeft } from 'lucide-react';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import GoTechIcon from '@/assets/icons/GoTechIcon';
 import { routes } from '@/lib/routes';
 import SidebarLink from './SidebarLink';
 import { Separator } from '../ui/separator';
+import { useAuthStore } from '@/store/auth-store';
+import { getInitialsFromEmail, getDisplayNameFromEmail } from '@/lib/utils';
 
 const MobileMenu = () => {
 	const pathname = usePathname();
+	const router = useRouter();
 	const [isOpen, setIsOpen] = useState(false);
+	const user = useAuthStore((state) => state.user);
+	const clearUser = useAuthStore((state) => state.clearUser);
+
+	const handleLogout = () => {
+		clearUser();
+		router.push('/login');
+	};
 
 	useEffect(() => {
 		startTransition(() => {
@@ -50,19 +60,22 @@ const MobileMenu = () => {
 						<div className="py-2 cursor-pointer pb-4">
 							<div className="flex items-center justify-between gap-3">
 								<div className="flex items-center gap-3">
-									<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-3line-gray">
-										<CircleUser size={24} className="text-gray-500" />
+									<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-gotech-primary text-white text-sm font-semibold">
+										{getInitialsFromEmail(user?.email)}
 									</div>
 									<div className="flex flex-col overflow-hidden">
 										<p className="text-sm font-semibold text-gray-900 truncate">
-											Olivia Rhye
+											{getDisplayNameFromEmail(user?.email)}
 										</p>
 										<p className="text-sm text-gray-500 truncate">
-											olivia@untitledui.com
+											{user?.email}
 										</p>
 									</div>
 								</div>
-								<button className="p-2 text-gray-500 hover:text-gray-700 transition-colors">
+								<button
+									onClick={handleLogout}
+									className="p-2 text-gray-500 hover:text-gray-700 transition-colors"
+								>
 									<LogOut size={20} />
 								</button>
 							</div>
