@@ -1,4 +1,9 @@
-const Posts = () => {
+import type { Metadata } from 'next';
+import { PostsClient } from './_components/PostsClient';
+
+export const metadata: Metadata = { title: 'Posts | Gotech' };
+
+export default function PostsPage() {
 	return (
 		<div className="space-y-6">
 			<div>
@@ -7,8 +12,7 @@ const Posts = () => {
 					Browse and manage all published content
 				</p>
 			</div>
+			<PostsClient />
 		</div>
 	);
-};
-
-export default Posts;
+}
