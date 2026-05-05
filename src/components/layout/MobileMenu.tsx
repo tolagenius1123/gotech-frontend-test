@@ -51,8 +51,8 @@ const MobileMenu = () => {
 							<div className="flex items-center justify-between gap-3">
 								<div className="flex items-center gap-3">
 									<div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-3line-gray">
-									<CircleUser size={24} className="text-gray-500" />
-								</div>
+										<CircleUser size={24} className="text-gray-500" />
+									</div>
 									<div className="flex flex-col overflow-hidden">
 										<p className="text-sm font-semibold text-gray-900 truncate">
 											Olivia Rhye
