@@ -1,3 +1,5 @@
+import { UsersClient } from './_components/UsersClient';
+
 const Users = () => {
 	return (
 		<div className="space-y-6">
@@ -7,6 +9,7 @@ const Users = () => {
 					Manage your team members and their roles
 				</p>
 			</div>
+			<UsersClient />
 		</div>
 	);
 };

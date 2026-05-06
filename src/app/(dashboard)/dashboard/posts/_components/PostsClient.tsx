@@ -55,7 +55,7 @@ export function PostsClient() {
 						placeholder="Search posts..."
 						value={searchTerm}
 						onChange={handleSearchChange}
-						className="pl-8 h-10"
+						className="pl-8 h-10 bg-white"
 					/>
 				</div>
 				<Button
