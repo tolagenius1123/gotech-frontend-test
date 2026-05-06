@@ -11,7 +11,7 @@ export default function DashboardLayout({
 			<Sidebar />
 			<div className="flex flex-col flex-1 min-w-0 bg-3line-gray">
 				<Header />
-				<div className="flex-1 pt-18 p-3 md:pt-5 md:p-5 overflow-y-auto dashboard-scrollbar">
+				<div className="flex-1 pt-24 p-3 md:pt-5 md:p-5 overflow-y-auto dashboard-scrollbar">
 					{children}
 				</div>
 			</div>

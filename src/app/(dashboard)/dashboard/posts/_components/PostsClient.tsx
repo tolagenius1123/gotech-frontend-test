@@ -1,9 +1,16 @@
 'use client';
 
+import { useState, useMemo, useCallback } from 'react';
+import { PlusIcon, SearchIcon } from 'lucide-react';
+
 import { usePosts } from '@/hooks/use-posts';
+import { useDebounce } from '@/hooks/use-debounce';
 import { DataTable } from '@/components/data-table/DataTable';
-import { columns } from './columns';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import TableSkeleton from '@/components/data-table/TableSkeleton';
+import { columns } from './columns';
+import { AddPostDialog } from './AddPostDialog';
 
 function ErrorState({ message }: { message: string }) {
 	return (
@@ -16,9 +23,53 @@ function ErrorState({ message }: { message: string }) {
 
 export function PostsClient() {
 	const { data: posts, isLoading, isError, error } = usePosts();
+	const [searchTerm, setSearchTerm] = useState('');
+	const [dialogOpen, setDialogOpen] = useState(false);
+
+	const debouncedSearch = useDebounce(searchTerm, 300);
+
+	const handleSearchChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+		setSearchTerm(e.target.value);
+	}, []);
+
+	const filteredPosts = useMemo(() => {
+		if (!posts) return [];
+		if (!debouncedSearch.trim()) return posts;
+
+		const term = debouncedSearch.toLowerCase();
+		return posts.filter(
+			(post) =>
+				post.title.toLowerCase().includes(term) || post.body.toLowerCase().includes(term)
+		);
+	}, [posts, debouncedSearch]);
 
 	if (isLoading) return <TableSkeleton />;
 	if (isError) return <ErrorState message={(error as Error).message} />;
 
-	return <DataTable columns={columns} data={posts ?? []} />;
+	return (
+		<div className="space-y-4">
+			<div className="flex items-center justify-between gap-4">
+				<div className="relative w-full max-w-sm">
+					<SearchIcon className="absolute left-2.5 top-1/2 -translate-y-1/2 size-4 text-muted-foreground pointer-events-none" />
+					<Input
+						placeholder="Search posts..."
+						value={searchTerm}
+						onChange={handleSearchChange}
+						className="pl-8 h-10"
+					/>
+				</div>
+				<Button
+					className="bg-gotech-primary py-5 px-3 cursor-pointer"
+					onClick={() => setDialogOpen(true)}
+				>
+					<PlusIcon />
+					Add Post
+				</Button>
+			</div>
+
+			<DataTable columns={columns} data={filteredPosts} />
+
+			<AddPostDialog open={dialogOpen} onOpenChange={setDialogOpen} />
+		</div>
+	);
 }
